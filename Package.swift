@@ -9,7 +9,13 @@ let package = Package(
     products: [.library(name: "MLXStructured", targets: ["MLXStructured"])],
     dependencies: [
         .package(url: "https://github.com/ml-explore/mlx-swift", "0.31.3" ..< "1.0.0"),
-        .package(url: "https://github.com/ml-explore/mlx-swift-lm", "3.31.3" ..< "4.0.0"),
+        // Pinned to docvarma fork so the consuming app's Gemma 4 ScaledLinear
+        // Quantizable patch (branch fix/gemma4-scaled-linear-quantizable) wins
+        // the SwiftPM identity merge. Drop once that patch lands upstream.
+        .package(
+            url: "https://github.com/docvarma/mlx-swift-lm.git",
+            revision: "ef85cf7dfd009c7cc2d269ba0733e76dd4d43893"
+        ),
         .package(url: "https://github.com/huggingface/swift-transformers", from: "1.2.1"),
         .package(url: "https://github.com/huggingface/swift-huggingface", from: "0.9.0"),
         .package(url: "https://github.com/petrukha-ivan/swift-json-schema", from: "2.0.2"),
